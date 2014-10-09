@@ -29,6 +29,15 @@ PROD_IOC_Darwin += $(PROD_NAME)
 # <name>.dbd will be created from <name>Include.dbd
 DBD +=  $(PROD_NAME).dbd
 $(PROD_NAME)_DBD += prosilicaSupport.dbd
+
+#kgofron: include iocStatus and autosave which are installed by epics Debian package
+# /usr/lib/epics/dbd/
+$(PROD_NAME)_DBD += base.dbd
+$(PROD_NAME)_DBD += devIocStats.dbd
+$(PROD_NAME)_DBD += asSupport.dbd
+$(PROD_NAME)_DBD += system.dbd
+$(PROD_NAME)_DBD += caPutLog.dbd
+
 DBD += prosilicaSupport.dbd
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
@@ -36,6 +45,13 @@ PROD_SRCS += prosilicaApp_registerRecordDeviceDriver.cpp prosilicaAppMain.cpp
 
 # Add locally compiled object code
 PROD_LIBS += prosilica
+
+#kgofron: include autosave and devIocStats libraries which are installed by epics Debian
+#package: /usr/lib/epics/lib/linux-x86_64
+PROD_LIBS += $(EPICS_BASE_IOC_LIBS)
+PROD_LIBS += autosave
+PROD_LIBS += devIocStats
+PROD_LIBS += caPutLog
 
 include $(TOP)/ADApp/commonDriverMakefile
 
